@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "699555548321",
+    "project_id": "projectcrownia",
+    "storage_bucket": "projectcrownia.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:699555548321:android:70ce56afe71c4f604134e0",
+        "android_client_info": {
+          "package_name": "com.ujikom.crownia"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyD8nXs8TuFrXZNqwS-miM10e_0pl9aGgoM"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
