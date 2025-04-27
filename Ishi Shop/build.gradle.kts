@@ -7,11 +7,11 @@ plugins {
 }
 
 android {
-    namespace = "com.ujikom.crownia"
+    namespace = "com.ujikom.Ishi_Shop"
     compileSdk = 35
 
     defaultConfig {
-        applicationId = "com.ujikom.crownia"
+        applicationId = "com.ujikom.Ishi_Shop"
         minSdk = 24
         targetSdk = 35
         versionCode = 1
