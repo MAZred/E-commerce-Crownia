@@ -31,10 +31,7 @@ import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.platform.LocalContext
-import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.font.FontWeight
-import androidx.compose.ui.text.intl.Locale
-import androidx.compose.ui.text.style.TextDecoration
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.navigation.NavController
@@ -62,7 +59,6 @@ fun FavoritePage(modifier: Modifier = Modifier,navController: NavController) {
                         val item = FavoriteItem(
                             id = doc.id,
                             title = doc.getString("title") ?: "",
-                            price = doc.getDouble("price") ?: 0.0,
                             actualPrice = doc.getDouble("actualPrice") ?: 0.0,
                             discount = doc.getDouble("discount") ?: 0.0,
                             imageUrl = (doc.get("images") as? List<String>)?.firstOrNull() ?: ""
@@ -130,11 +126,6 @@ fun FavoriteCard(item: FavoriteItem, onDelete: () -> Unit) {
             Spacer(modifier = Modifier.width(12.dp))
             Column(modifier = Modifier.weight(1f)) {
                 Text(item.title, fontWeight = FontWeight.Bold, maxLines = 2)
-                Text(
-                    text = formatRupiah(item.price),
-                    fontSize = 12.sp,
-                    style = TextStyle(textDecoration = TextDecoration.LineThrough)
-                )
                 Text(
                     text = formatRupiah(item.actualPrice),
                     fontWeight = FontWeight.SemiBold,

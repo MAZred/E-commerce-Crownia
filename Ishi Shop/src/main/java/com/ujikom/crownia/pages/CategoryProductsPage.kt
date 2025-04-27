@@ -3,12 +3,9 @@ package com.ujikom.crownia.pages
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
-import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.LazyColumn
-import androidx.compose.foundation.lazy.LazyRow
 import androidx.compose.foundation.lazy.items
-import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.mutableStateOf
@@ -18,9 +15,7 @@ import androidx.compose.ui.unit.dp
 import androidx.navigation.NavController
 import com.google.firebase.Firebase
 import com.google.firebase.firestore.firestore
-import com.ujikom.crownia.GlobalNavigation.navController
 import com.ujikom.crownia.components.ProductItemView
-import com.ujikom.crownia.model.CategoryModel
 import com.ujikom.crownia.model.ProductModel
 
 @Composable

@@ -1,40 +1,21 @@
 package com.ujikom.crownia.pages
 
-import android.util.Log
-import android.widget.Toast
-import androidx.compose.foundation.Image
+
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyColumn
-import androidx.compose.foundation.lazy.LazyRow
 import androidx.compose.foundation.lazy.items
-import androidx.compose.foundation.shape.RoundedCornerShape
-import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.filled.ShoppingCart
 import androidx.compose.material3.*
 import androidx.compose.runtime.*
-import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.layout.ContentScale
-import androidx.compose.ui.platform.LocalContext
-import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.font.FontWeight
-import androidx.compose.ui.text.style.TextDecoration
-import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.navigation.NavController
-import coil.compose.AsyncImage
-import coil.compose.rememberAsyncImagePainter
-import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.firestore.FirebaseFirestore
-import com.ujikom.crownia.GlobalNavigation.navController
 import com.ujikom.crownia.components.BannerView
 import com.ujikom.crownia.components.CategoriesView
 import com.ujikom.crownia.components.HeaderView
 import com.ujikom.crownia.components.ProductItemView
-import com.ujikom.crownia.components.SearchTopBar
-import com.ujikom.crownia.components.addToCart
 import com.ujikom.crownia.model.ProductModel
 
 @Composable

@@ -16,9 +16,7 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.navigation.NavController
 import com.google.firebase.Firebase
-import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.auth
-import com.ujikom.crownia.pages.ProfileMenuItem
 
 @Composable
 fun LogoutView(modifier: Modifier = Modifier, navController: NavController) {

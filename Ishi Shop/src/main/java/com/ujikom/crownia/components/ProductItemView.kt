@@ -5,6 +5,7 @@ import android.util.Log
 import android.widget.Toast
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
@@ -12,9 +13,10 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
-import androidx.compose.foundation.layout.width
+import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.Favorite
 import androidx.compose.material.icons.filled.FavoriteBorder
 import androidx.compose.material.icons.filled.ShoppingCart
 import androidx.compose.material3.Card
@@ -24,6 +26,10 @@ import androidx.compose.material3.IconButton
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
@@ -31,24 +37,23 @@ import androidx.compose.ui.draw.shadow
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.platform.LocalContext
-import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.font.FontWeight
-import androidx.compose.ui.text.style.TextDecoration
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.navigation.NavController
 import coil.compose.AsyncImage
-import com.google.firebase.FirebaseApp
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.firestore.FirebaseFirestore
 import com.ujikom.crownia.model.ProductModel
-import java.text.NumberFormat
-import java.util.Locale
 
 @Composable
 fun ProductItemView(modifier: Modifier = Modifier, product: ProductModel,navController: NavController) {
     val context = LocalContext.current
+    var isFavorited by remember { mutableStateOf(false) } // State untuk toggle love
+    val currentUser = FirebaseAuth.getInstance().currentUser
+    val uid = currentUser?.uid
+
     Card(
         modifier = modifier
             .padding(vertical = 8.dp)
@@ -56,7 +61,7 @@ fun ProductItemView(modifier: Modifier = Modifier, product: ProductModel,navCont
         shape = RoundedCornerShape(16.dp),
         colors = CardDefaults.cardColors(containerColor = Color.White),
     ) {
-        Column {
+        Box(modifier = Modifier.fillMaxWidth()) {
             AsyncImage(
                 model = product.images.firstOrNull(),
                 contentDescription = product.title,
@@ -66,6 +71,46 @@ fun ProductItemView(modifier: Modifier = Modifier, product: ProductModel,navCont
                     .height(180.dp)
                     .clip(RoundedCornerShape(topStart = 16.dp, topEnd = 16.dp))
             )
+
+            // Tombol love di pojok kanan atas gambar
+            IconButton(
+                onClick = {
+                    if (uid == null) {
+                        navController.navigate("auth")
+                    } else {
+                        isFavorited = true // langsung true, atau bisa toggle
+                        val db = FirebaseFirestore.getInstance()
+                        val favoriteItem = hashMapOf(
+                            "userId" to uid,
+                            "title" to product.title,
+                            "actualPrice" to product.actualPrice,
+                            "discount" to product.discount,
+                            "images" to product.images
+                        )
+
+                        db.collection("favorites")
+                            .add(favoriteItem)
+                            .addOnSuccessListener {
+                                Toast.makeText(context, "Ditambahkan ke favorit", Toast.LENGTH_SHORT).show()
+                            }
+                            .addOnFailureListener {
+                                Toast.makeText(context, "Gagal menambahkan", Toast.LENGTH_SHORT).show()
+                            }
+                    }
+                },
+                modifier = Modifier
+                    .align(Alignment.TopEnd)
+                    .padding(8.dp)
+                    .size(32.dp)
+                    .background(Color.White.copy(alpha = 0.8f), shape = CircleShape)
+            ) {
+                Icon(
+                    imageVector = if (isFavorited) Icons.Default.Favorite else Icons.Default.FavoriteBorder,
+                    contentDescription = "Favorite",
+                    tint = if (isFavorited) Color.Red else Color.Gray
+                )
+            }
+        }
 
             Column(modifier = Modifier.padding(16.dp)) {
                 Text(
@@ -80,14 +125,7 @@ fun ProductItemView(modifier: Modifier = Modifier, product: ProductModel,navCont
 
                 Row(verticalAlignment = Alignment.CenterVertically) {
                     Text(
-                        text = "Rp ${product.price}",
-                        fontSize = 12.sp,
-                        textDecoration = TextDecoration.LineThrough,
-                        color = Color.Gray
-                    )
-                    Spacer(modifier = Modifier.width(6.dp))
-                    Text(
-                        text = "Rp ${product.actualPrice}",
+                        text = "Rp ${"%,.0f".format(product.actualPrice)}",
                         fontSize = 14.sp,
                         fontWeight = FontWeight.Bold,
                         color = MaterialTheme.colorScheme.primary
@@ -129,7 +167,6 @@ fun ProductItemView(modifier: Modifier = Modifier, product: ProductModel,navCont
             }
         }
     }
-}
 
 
 fun addToCart(product: ProductModel, context: Context) {

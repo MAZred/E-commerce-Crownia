@@ -154,9 +154,5 @@ fun SignupScreen(modifier: Modifier = Modifier, navController: NavController, au
                 ) {
                     Text(text = if(isLoading)"Creating Account" else "Signup", fontSize = 22.sp)
                 }
-
-
-                /// jika punya akun pergi ke hal login
-
         }
     }
